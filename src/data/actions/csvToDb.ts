@@ -21,17 +21,19 @@ const csvFilesToImport = [
   },
 ];
 
-for (const fileImport of csvFilesToImport) {
-  fs.createReadStream(fileImport.path)
-    .pipe(parse({ delimiter: ",", from_line: 2 }))
-    .on("data", (row: string[]) => {
-      const isValid: Error = validateJourney(row);
-      console.log(isValid);
-    })
-    .on("end", () => {
-      console.log("finished");
-    })
-    .on("error", (error: Error) => {
-      console.error(error.message);
-    });
-}
+export const csvToDb = () => {
+  for (const fileImport of csvFilesToImport) {
+    fs.createReadStream(fileImport.path)
+      .pipe(parse({ delimiter: ",", from_line: 2 }))
+      .on("data", (row: string[]) => {
+        const isValid: Error = validateJourney(row);
+        console.log(isValid);
+      })
+      .on("end", () => {
+        console.log("finished");
+      })
+      .on("error", (error: Error) => {
+        console.error(error.message);
+      });
+  }
+};
