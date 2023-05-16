@@ -1,0 +1,30 @@
+version: "3"
+
+services:
+  backend:
+    image: citybikes-backend
+    build:
+      context: .
+      dockerfile: dev.Dockerfile
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - 3000:3000
+    depends_on:
+      - postgres
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "6500:5432"
+    volumes:
+      - postgresDb:/data/postgres
+    env_file:
+      - ./.env
+    environment:
+      - POSTGRES_PORT=6500
+      - POSTGRES_USER=dev
+      - POSTGRES_PASSWORD=passwd
+      - POSTGRES_DB=postgres-database
+volumes:
+  postgresDb:
