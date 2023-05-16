@@ -19,5 +19,8 @@
     "eslint": "^8.40.0",
     "nodemon": "^2.0.22",
     "typescript": "^5.0.4"
+  },
+  "dependencies": {
+    "zod": "^3.21.4"
   }
 }

@@ -1,30 +1,32 @@
 import fs from "fs";
 import { parse } from "csv-parse";
+import { validateJourney } from "../validation";
 
 const csvFilesToImport = [
   {
-    name: "../data-import/2021-05.csv",
+    path: "../../data-import/2021-05.csv",
     content: "journeys",
   },
   {
-    name: "../data-import/2021-06.csv",
+    path: "../../data-import/2021-06.csv",
     content: "journeys",
   },
   {
-    name: "../data-import/2021-07.csv",
+    path: "../../data-import/2021-07.csv",
     content: "journeys",
   },
   {
-    name: "../data-import/stations.csv",
+    path: "../../data-import/stations.csv",
     content: "stations",
   },
 ];
 
 for (const fileImport of csvFilesToImport) {
-  fs.createReadStream(fileImport.name)
+  fs.createReadStream(fileImport.path)
     .pipe(parse({ delimiter: ",", from_line: 2 }))
     .on("data", (row: string[]) => {
-      console.log(row);
+      const isValid: Error = validateJourney(row);
+      console.log(isValid);
     })
     .on("end", () => {
       console.log("finished");
