@@ -3,8 +3,8 @@ import { ParsingResult } from "./validationTypes";
 
 export const parseJourney = (rawJourney: string[]): ParsingResult => {
   const journeyInput = {
-    departure: rawJourney[0],
-    return: rawJourney[1],
+    departureTime: rawJourney[0],
+    returnTime: rawJourney[1],
     departureStationId: rawJourney[2],
     departureStationName: rawJourney[3],
     returnStationId: rawJourney[4],

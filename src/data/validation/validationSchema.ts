@@ -1,8 +1,8 @@
 import { z } from "zod";
 
 export const journeySchema = z.object({
-  departure: z.coerce.date(),
-  return: z.coerce.date(),
+  departureTime: z.coerce.date(),
+  returnTime: z.coerce.date(),
   departureStationId: z.coerce.number(),
   departureStationName: z.coerce.string(),
   returnStationId: z.coerce.number(),

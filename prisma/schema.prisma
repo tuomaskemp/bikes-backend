@@ -1,6 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -8,4 +5,35 @@ generator client {
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
+}
+
+model Station {
+  id                Int       @id @default(autoincrement())
+  fid               Int
+  stationId         Int       @unique
+  name              String
+  nameSwe           String
+  nameEn            String
+  address           String
+  addressSwe        String
+  city              String?
+  citySwe           String?
+  operator          String?
+  capacity          Int
+  latitude          Float
+  longitude         Float
+  journeysDeparting Journey[] @relation("Journey_DepartureStation")
+  journeysReturning Journey[] @relation("Journey_ReturnStation")
+}
+
+model Journey {
+  id                      Int      @id @default(autoincrement())
+  departureTime           DateTime
+  returnTime              DateTime
+  departureStation        Station  @relation("Journey_DepartureStation", fields: [departureStationId], references: [stationId])
+  returnStation           Station  @relation("Journey_ReturnStation", fields: [returnStationId], references: [stationId])
+  departureStationId      Int
+  returnStationId         Int
+  coveredDistanceInMeters Int
+  durationInSeconds       Int
 }
