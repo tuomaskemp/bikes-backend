@@ -1,8 +1,6 @@
-import { ZodError, z } from "zod";
+import { ZodError } from "zod";
 import { journeySchema, stationSchema } from "./validationSchema";
-
-type Journey = z.infer<typeof journeySchema>;
-type Station = z.infer<typeof stationSchema>;
+import { Journey, Station } from "./validationTypes";
 
 export const parseJourney = (rawJourney: string[]): Journey | ZodError => {
   const journeyInput = {
