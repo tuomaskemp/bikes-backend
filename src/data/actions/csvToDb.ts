@@ -1,6 +1,6 @@
 import fs from "fs";
 import { parse } from "csv-parse";
-import { parseJourney } from "../validation";
+import { parseJourney, parseStation } from "../validation";
 
 const csvFilesToImport = [
   {
@@ -29,6 +29,10 @@ export const csvToDb = () => {
         if (fileImport.content === "joyrneys") {
           const journey = parseJourney(row);
           console.log(journey);
+        }
+        if (fileImport.content === "stations") {
+          const station = parseStation(row);
+          console.log(station);
         }
       })
       .on("end", () => {
