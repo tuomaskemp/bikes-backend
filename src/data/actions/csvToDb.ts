@@ -26,13 +26,23 @@ export const csvToDb = () => {
     fs.createReadStream(fileImport.path)
       .pipe(parse({ delimiter: ",", from_line: 2 }))
       .on("data", (row: string[]) => {
-        if (fileImport.content === "joyrneys") {
+        if (fileImport.content === "journeys") {
           const journey = parseJourney(row);
-          console.log(journey);
+          if (!journey.valid) {
+            console.error(
+              "Invalid journey. Error details:\n\n ",
+              journey.error?.errors.map((error) => error.message)
+            );
+          }
         }
         if (fileImport.content === "stations") {
           const station = parseStation(row);
-          console.log(station);
+          if (!station.valid) {
+            console.error(
+              "Invalid station. Error details:\n\n ",
+              station.error?.errors.map((error) => error.message)
+            );
+          }
         }
       })
       .on("end", () => {

@@ -1,8 +1,7 @@
-import { ZodError } from "zod";
 import { journeySchema, stationSchema } from "./validationSchema";
-import { Journey, Station } from "./validationTypes";
+import { ParsingResult } from "./validationTypes";
 
-export const parseJourney = (rawJourney: string[]): Journey | ZodError => {
+export const parseJourney = (rawJourney: string[]): ParsingResult => {
   const journeyInput = {
     departure: rawJourney[0],
     return: rawJourney[1],
@@ -14,15 +13,20 @@ export const parseJourney = (rawJourney: string[]): Journey | ZodError => {
     durationInSeconds: rawJourney[7],
   };
   const result = journeySchema.required().safeParse(journeyInput);
-
   if (!result.success) {
-    return result.error;
+    return {
+      valid: false,
+      error: result.error,
+    };
   } else {
-    return result.data;
+    return {
+      valid: true,
+      data: result.data,
+    };
   }
 };
 
-export const parseStation = (rawStation: string[]): Station | ZodError => {
+export const parseStation = (rawStation: string[]): ParsingResult => {
   const stationInput = {
     fid: rawStation[0],
     stationId: rawStation[1],
@@ -42,8 +46,14 @@ export const parseStation = (rawStation: string[]): Station | ZodError => {
   const result = stationSchema.required().safeParse(stationInput);
 
   if (!result.success) {
-    return result.error;
+    return {
+      valid: false,
+      error: result.error,
+    };
   } else {
-    return result.data;
+    return {
+      valid: true,
+      data: result.data,
+    };
   }
 };
