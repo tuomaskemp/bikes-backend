@@ -12,6 +12,8 @@ DATABASE_URL=postgresql://dev:passwd@localhost:6500/postgresDatabase?schema=publ
 docker compose -f docker-compose.dev.yml up
 ```
 
+To generate Prisma client, run
+
 ```
-npx prisma migrate dev --name init
+npx prisma generate
 ```
