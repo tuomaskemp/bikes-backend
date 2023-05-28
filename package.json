@@ -7,7 +7,8 @@
     "build": "npx tsc",
     "start": "node dist/index.js",
     "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
-    "db:seed": "node dist/data/actions/csvToDb.js"
+    "db:seedStations": "node dist/data/actions/stationsToDb.js",
+    "db:seedJourneys": "node dist/data/actions/journeysToDb.js"
   },
   "author": "Tuomas Kemppainen",
   "license": "ISC",
