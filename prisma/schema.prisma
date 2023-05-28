@@ -1,3 +1,6 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
 generator client {
   provider = "prisma-client-js"
 }
@@ -34,6 +37,6 @@ model Journey {
   returnStation           Station  @relation("Journey_ReturnStation", fields: [returnStationId], references: [stationId])
   departureStationId      Int
   returnStationId         Int
-  coveredDistanceInMeters Int
+  coveredDistanceInMeters Float
   durationInSeconds       Int
 }

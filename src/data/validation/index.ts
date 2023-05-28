@@ -1,7 +1,7 @@
 import { journeySchema, stationSchema } from "./validationSchema";
-import { ParsingResult } from "./validationTypes";
+import { JourneyParsingResult, StationParsingResult } from "./validationTypes";
 
-export const parseJourney = (rawJourney: string[]): ParsingResult => {
+export const parseJourney = (rawJourney: string[]): JourneyParsingResult => {
   const journeyInput = {
     departureTime: rawJourney[0],
     returnTime: rawJourney[1],
@@ -26,7 +26,7 @@ export const parseJourney = (rawJourney: string[]): ParsingResult => {
   }
 };
 
-export const parseStation = (rawStation: string[]): ParsingResult => {
+export const parseStation = (rawStation: string[]): StationParsingResult => {
   const stationInput = {
     fid: rawStation[0],
     stationId: rawStation[1],

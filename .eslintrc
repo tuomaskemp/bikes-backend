@@ -8,6 +8,9 @@
   "parserOptions": {
     "project": true
   },
-  "plugins": ["@typescript-eslint"],
-  "root": true
+  "plugins": ["@typescript-eslint", "no-floating-promise"],
+  "root": true,
+  "rules": {
+    "no-floating-promise/no-floating-promise": 2
+  }
 }

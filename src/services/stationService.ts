@@ -1,7 +1,7 @@
-import { Station } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 
-export const createStation = async (station: Station) => {
+export const createStation = async (station: Prisma.StationCreateInput) => {
   const newStation = await prisma.station.create({
     data: { ...station },
   });

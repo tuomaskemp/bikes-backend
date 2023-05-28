@@ -6,7 +6,8 @@
   "scripts": {
     "build": "npx tsc",
     "start": "node dist/index.js",
-    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\""
+    "dev": "concurrently \"npx tsc --watch\" \"nodemon -q dist/index.js\"",
+    "db:seed": "node dist/data/actions/csvToDb.js"
   },
   "author": "Tuomas Kemppainen",
   "license": "ISC",
@@ -19,12 +20,12 @@
     "csv": "^6.3.0",
     "eslint": "^8.40.0",
     "nodemon": "^2.0.22",
-    "prisma": "^4.14.1",
     "typescript": "^5.0.4"
   },
   "dependencies": {
     "@prisma/client": "^4.14.1",
     "express": "^4.18.2",
+    "prisma": "^4.14.1",
     "zod": "^3.21.4"
   }
 }
