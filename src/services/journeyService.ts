@@ -4,7 +4,15 @@ import prisma from "../prisma";
 export const createManyJourney = async (
   journeys: Omit<Prisma.JourneyCreateManyInput, "id">[]
 ) => {
-  const journeyData = journeys.map((journey) => {
+  const allStations = await prisma.station.findMany();
+  const existingStationIds = allStations.map((station) => station.stationId);
+
+  const validatedJourneys = journeys.filter(
+    (journey) =>
+      existingStationIds.includes(journey.departureStationId) &&
+      existingStationIds.includes(journey.returnStationId)
+  );
+  const journeyData = validatedJourneys.map((journey) => {
     return {
       departureTime: journey.departureTime,
       returnTime: journey.returnTime,

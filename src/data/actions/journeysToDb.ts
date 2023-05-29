@@ -16,7 +16,7 @@ const processJourneyFile = async (fileImport: string) => {
     .pipe(parse({ delimiter: ",", from_line: 2 }));
 
   let journeyChunk: Prisma.JourneyCreateManyInput[] = [];
-  const CHUNK_SIZE = 1000;
+  const CHUNK_SIZE = 10000;
 
   for await (const row of stream) {
     const journey = parseJourney(row);
