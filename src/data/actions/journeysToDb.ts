@@ -1,7 +1,8 @@
 import fs from "fs";
 import { parse } from "csv-parse";
 import { parseJourney } from "../validation";
-import { createJourney } from "../../services/journeyService";
+import { createManyJourney } from "../../services/journeyService";
+import { Prisma } from "@prisma/client";
 
 const journeyCsvFilesToImport = [
   "./data-import/2021-05.csv",
@@ -14,6 +15,9 @@ const processJourneyFile = async (fileImport: string) => {
     .createReadStream(fileImport)
     .pipe(parse({ delimiter: ",", from_line: 2 }));
 
+  let journeyChunk: Prisma.JourneyCreateManyInput[] = [];
+  const CHUNK_SIZE = 1000;
+
   for await (const row of stream) {
     const journey = parseJourney(row);
 
@@ -25,16 +29,15 @@ const processJourneyFile = async (fileImport: string) => {
     }
 
     if (journey.valid && journey.data) {
-      try {
-        await createJourney(
-          journey.data,
-          journey.data.departureStationId,
-          journey.data.returnStationId
-        );
-      } catch (error: unknown) {
-        console.error("Journey creation failed. Error: ", error);
+      journeyChunk.push(journey.data);
+      if (journeyChunk.length >= CHUNK_SIZE) {
+        await createManyJourney(journeyChunk);
+        journeyChunk = [];
       }
     }
+  }
+  if (journeyChunk.length > 0) {
+    await createManyJourney(journeyChunk); // Create the remaining journeys
   }
 };
 

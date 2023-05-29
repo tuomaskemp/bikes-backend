@@ -1,27 +1,26 @@
 import { Prisma } from "@prisma/client";
 import prisma from "../prisma";
 
-export const createJourney = async (
-  journey: Omit<
-    Prisma.JourneyCreateInput,
-    "departureStation" | "returnStation"
-  >,
-  departureStationId: number,
-  returnStationId: number
+export const createManyJourney = async (
+  journeys: Omit<Prisma.JourneyCreateManyInput, "id">[]
 ) => {
-  const newJourney = await prisma.journey.create({
-    data: {
+  const journeyData = journeys.map((journey) => {
+    return {
       departureTime: journey.departureTime,
       returnTime: journey.returnTime,
-      departureStation: {
-        connect: { stationId: departureStationId },
-      },
-      returnStation: {
-        connect: { stationId: returnStationId },
-      },
       coveredDistanceInMeters: journey.coveredDistanceInMeters,
       durationInSeconds: journey.durationInSeconds,
-    },
+      departureStationId: journey.departureStationId,
+      returnStationId: journey.returnStationId,
+    };
   });
-  return newJourney;
+  try {
+    const newJourney = await prisma.journey.createMany({
+      data: journeyData,
+      skipDuplicates: false,
+    });
+    return newJourney;
+  } catch (error: unknown) {
+    return error;
+  }
 };
