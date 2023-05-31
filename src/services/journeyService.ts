@@ -32,3 +32,14 @@ export const createManyJourney = async (
     return error;
   }
 };
+
+export const getJourneys = async () => {
+  const result = await prisma.journey.findMany({
+    include: {
+      departureStation: true,
+      returnStation: true,
+    },
+    take: 100,
+  });
+  return result;
+};

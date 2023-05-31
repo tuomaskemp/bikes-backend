@@ -8,14 +8,7 @@ export const createStation = async (station: Prisma.StationCreateInput) => {
   return newStation;
 };
 
-interface SingleStation extends Station {
-  totalJourneysDeparting: number;
-  totalJourneysReturning: number;
-}
-
-export const getSingleStation = async (
-  id: string
-): Promise<SingleStation | undefined> => {
+export const getSingleStation = async (id: string) => {
   const singleStation = await prisma.station.findUniqueOrThrow({
     where: { stationId: Number(id) },
   });
@@ -36,4 +29,11 @@ export const getSingleStation = async (
       totalJourneysReturning,
     };
   }
+};
+
+export const getStations = async () => {
+  const result = await prisma.station.findMany({
+    take: 100,
+  });
+  return result;
 };

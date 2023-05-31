@@ -1,13 +1,10 @@
 import express, { Request, Response } from "express";
-import prisma from "../prisma";
-import { getSingleStation } from "../services/stationService";
+import { getSingleStation, getStations } from "../services/stationService";
 
 const router = express.Router();
 
 router.get("/", async (_req: Request, res: Response) => {
-  const result = await prisma.station.findMany({
-    take: 100,
-  });
+  const result = await getStations();
   res.status(200).json(result);
 });
 
