@@ -1,5 +1,6 @@
 {
   "preset": "ts-jest",
   "testEnvironment": "node",
-  "setupFilesAfterEnv": ["./src/singleton.ts"]
+  "setupFilesAfterEnv": ["./src/singleton.ts"],
+  "testPathIgnorePatterns": ["/node_modules/", "/dist/"]
 }
