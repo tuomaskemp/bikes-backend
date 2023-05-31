@@ -56,3 +56,7 @@ To seed data from CSV files into the database, use the following commands:
 
 - `docker exec <container name> npm run db:seedStations`: Load station data from CSV files into the database.
 - `docker exec <container name> npm run db:seedJourneys`: Load journey data from CSV files into the database.
+
+## Testing
+
+Execute tests by running `npm test`. You don't need to run the backend for this.
