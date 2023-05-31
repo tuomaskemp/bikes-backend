@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import prisma from "../prisma";
+import { getSingleStation } from "../services/stationService";
 
 const router = express.Router();
 
@@ -13,26 +14,8 @@ router.get("/", async (_req: Request, res: Response) => {
 router.get("/:id", async (req: Request, res: Response) => {
   try {
     const id = req.params["id"];
-    const singleStation = await prisma.station.findUniqueOrThrow({
-      where: { stationId: Number(id) },
-    });
-    if (singleStation) {
-      const totalJourneysDeparting = await prisma.journey.count({
-        where: {
-          departureStationId: singleStation.id,
-        },
-      });
-      const totalJourneysReturning = await prisma.journey.count({
-        where: {
-          returnStationId: singleStation.id,
-        },
-      });
-      res.status(200).json({
-        ...singleStation,
-        totalJourneysDeparting,
-        totalJourneysReturning,
-      });
-    }
+    const station = await getSingleStation(id);
+    res.status(200).json(station);
   } catch (error: unknown) {
     res.status(404);
   }
